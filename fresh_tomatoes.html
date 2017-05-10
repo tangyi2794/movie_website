@@ -1,16 +1,4 @@
-#!/usr/bin/env python
-# coding:utf-8
 
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
-
-import webbrowser
-import os
-import re
-
-# Styles and scripting for the page
-main_page_head = '''
 <head>
     <meta charset="utf-8">
     <title>Fresh Tomatoes!</title>
@@ -87,10 +75,7 @@ main_page_head = '''
         });
     </script>
 </head>
-'''
 
-# The main page layout and title bar
-main_page_content = '''
 <!DOCTYPE html>
 <html lang="en">
   <body>
@@ -118,48 +103,37 @@ main_page_content = '''
       </div>
     </div>
     <div class="container">
-      {movie_tiles}
+      
+<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="62Y7BXIuX6Y" data-toggle="modal" data-target="#trailer">
+    <img src="https://i.ytimg.com/vi/62Y7BXIuX6Y/hqdefault.jpg?custom=true&w=336&h=188&stc=true&jpg444=true&jpgq=90&sp=67&sigh=FVZas31ZcustLdd-IvlvI1ZCzjA" width="342" height="222">
+    <h2>See You Again Zither/Guzheng Cover 古筝</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="t4kyRyKyOpo" data-toggle="modal" data-target="#trailer">
+    <img src="https://i.ytimg.com/vi/t4kyRyKyOpo/hqdefault.jpg?custom=true&w=336&h=188&stc=true&jpg444=true&jpgq=90&sp=68&sigh=2Qd1P7khd7GKK8CGMX0MAhwKuV8" width="342" height="222">
+    <h2>杰里米 霍华德: 会学习的电脑带来的美好和恐怖</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="J2Ckgt2dR8k" data-toggle="modal" data-target="#trailer">
+    <img src="https://i.ytimg.com/vi/J2Ckgt2dR8k/hqdefault.jpg?custom=true&w=336&h=188&stc=true&jpg444=true&jpgq=90&sp=68&sigh=t5C195CVE2GMo31tZjqX8V0aAdM" width="342" height="222">
+    <h2>EVE Online - YC119.5 Release Features</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="J2Ckgt2dR8k" data-toggle="modal" data-target="#trailer">
+    <img src="https://i.ytimg.com/vi/J2Ckgt2dR8k/hqdefault.jpg?custom=true&w=336&h=188&stc=true&jpg444=true&jpgq=90&sp=68&sigh=t5C195CVE2GMo31tZjqX8V0aAdM" width="342" height="222">
+    <h2>EVE Online - YC119.5 Release Features</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="J2Ckgt2dR8k" data-toggle="modal" data-target="#trailer">
+    <img src="https://i.ytimg.com/vi/J2Ckgt2dR8k/hqdefault.jpg?custom=true&w=336&h=188&stc=true&jpg444=true&jpgq=90&sp=68&sigh=t5C195CVE2GMo31tZjqX8V0aAdM" width="342" height="222">
+    <h2>EVE Online - YC119.5 Release Features</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="J2Ckgt2dR8k" data-toggle="modal" data-target="#trailer">
+    <img src="https://i.ytimg.com/vi/J2Ckgt2dR8k/hqdefault.jpg?custom=true&w=336&h=188&stc=true&jpg444=true&jpgq=90&sp=68&sigh=t5C195CVE2GMo31tZjqX8V0aAdM" width="342" height="222">
+    <h2>EVE Online - YC119.5 Release Features</h2>
+</div>
+
     </div>
   </body>
 </html>
-'''
-
-# A single movie entry html template
-movie_tile_content = '''
-<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer">
-    <img src="{poster_image_url}" width="342" height="222">
-    <h2>{movie_title}</h2>
-</div>
-'''
-
-def create_movie_tiles_content(movies):
-    # The HTML content for this section of the page
-    content = ''
-    for movie in movies:
-        # Extract the youtube ID from the url
-        youtube_id_match = re.search(r'(?<=v=)[^&#]+', movie.trailer_youtube_url)
-        youtube_id_match = youtube_id_match or re.search(r'(?<=be/)[^&#]+', movie.trailer_youtube_url)
-        trailer_youtube_id = youtube_id_match.group(0) if youtube_id_match else None
-
-        # Append the tile for the movie with its content filled in
-        content += movie_tile_content.format(
-            movie_title=movie.title,
-            poster_image_url=movie.poster_image_url,
-            trailer_youtube_id=trailer_youtube_id
-        )
-    return content
-
-def open_movies_page(movies):
-  # Create or overwrite the output file
-  output_file = open('fresh_tomatoes.html', 'w')
-
-  # Replace the placeholder for the movie tiles with the actual dynamically generated content
-  rendered_content = main_page_content.format(movie_tiles=create_movie_tiles_content(movies))
-
-  # Output the file
-  output_file.write(main_page_head + rendered_content)
-  output_file.close()
-
-  # open the output file in the browser
-  url = os.path.abspath(output_file.name)
-  webbrowser.open('file://' + url, new=2) # open in a new tab, if possible
