@@ -35,9 +35,12 @@ def generate_the_data(_data_list):
 
 
 def start_website():
+        # Program entrance run the logic
     data_list = data_json_parsing(data_file)
     movies = generate_the_data(data_list)
     fresh_tomatoes.open_movies_page(movies)
     # print movies
 
-start_website()
+start_website() #   
+
+
